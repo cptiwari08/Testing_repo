@@ -1,30 +1,17 @@
-provider "azurerm" {
-  features {
-    key_vault {
-      purge_soft_deleted_secrets_on_destroy = true
-      recover_soft_deleted_secrets          = true
-    }
-  }
-}
-
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
-}
-
-resource "azurerm_key_vault" "example" {
-  name                       = "examplekeyvault"
-  location                   = azurerm_resource_group.example.location
-  resource_group_name        = azurerm_resource_group.example.name
-  tenant_id                  = data.azurerm_client_config.current.tenant_id
+resource "azurerm_key_vault" "kv_block" {
+  for_each = var.RG
+  name                       = each.value.kvname
+  location                   = each.value.location
+  resource_group_name        = each.value.rgname
+  tenant_id                  = "25b7cafa-b5a5-472f-9c45-301d4d14e3cd"
   sku_name                   = "premium"
   soft_delete_retention_days = 7
 
   access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
+    tenant_id = "25b7cafa-b5a5-472f-9c45-301d4d14e3cd"
+    object_id = "86255f80-8bd6-4862-8602-e25da3933cbc"
 
     key_permissions = [
       "Create",
