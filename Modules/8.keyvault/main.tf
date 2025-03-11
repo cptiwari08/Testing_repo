@@ -28,8 +28,9 @@ resource "azurerm_key_vault" "kv_block" {
   }
 }
 
-resource "azurerm_key_vault_secret" "example" {
+resource "azurerm_key_vault_secret" "kvs_block" {
+  for_each = var.RG
   name         = "secret-sauce"
   value        = "szechuan"
-  key_vault_id = azurerm_key_vault.example.id
+  key_vault_id = azurerm_key_vault.kv_block[each.key].id
 }

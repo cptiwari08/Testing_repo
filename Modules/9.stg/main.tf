@@ -18,6 +18,6 @@ resource "azurerm_storage_container" "container_block" {
   for_each = var.RG
 
   name                  = each.value.containername
-  storage_account_name  = data.azurerm_storage_account.existing_stg_block[each.key].name
+  storage_account_name  = azurerm_storage_account.stg_block[each.key].name
   container_access_type = "private"
 }

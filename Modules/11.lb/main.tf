@@ -1,4 +1,5 @@
 resource "azurerm_public_ip" "lb_pip" {
+  for_each = var.RG
   name                = each.value.lb_pip_name
   location            = each.value.location
   resource_group_name = each.value.rgname
@@ -7,7 +8,7 @@ resource "azurerm_public_ip" "lb_pip" {
 }
 
 resource "azurerm_lb" "loadbalancer" {
-  
+  for_each = var.RG
   name                = each.value.lb_name
   location            = each.value.location
   resource_group_name = each.value.rgname
@@ -15,7 +16,7 @@ resource "azurerm_lb" "loadbalancer" {
 
   frontend_ip_configuration {
     name                 = each.value.frontend_pip_name
-    public_ip_address_id = azurerm_public_ip.lb_pip.id
+    public_ip_address_id = data.azurerm_public_ip.lb_pip[each.key].id
   }
 }
 
@@ -49,7 +50,7 @@ resource "azurerm_lb_backend_address_pool_address" "backendnginx02" {
   
 }
 resource "azurerm_lb_rule" "example" {
-  
+  for_each = var.RG
   loadbalancer_id                = azurerm_lb.loadbalancer.id
   name                           = "NginxRule"
   protocol                       = "Tcp"
