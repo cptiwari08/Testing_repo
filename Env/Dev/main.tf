@@ -32,3 +32,23 @@ module "Tvm" {
   RG = var.MRG
   depends_on = [ module.Tnic ]
 }
+module "Tkv" {
+  source = "../../Modules/8.keyvault"
+  RG = var.MRG
+  depends_on = [ module.TRG ]
+}
+module "Tstg" {
+  source = "../../Modules/9.stg"
+  RG = var.MRG
+  depends_on = [ module.TRG ]
+}
+module "Tsql" {
+  source = "../../Modules/10.sqlserver"
+  RG = var.MRG
+  depends_on = [ module.TRG ]
+}
+module "Tlb" {
+  source = "../../Modules/11.lb"
+  RG = var.MRG
+  depends_on = [ module.TRG ]
+}
