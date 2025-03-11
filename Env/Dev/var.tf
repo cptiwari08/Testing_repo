@@ -1,2 +1,1 @@
 variable "MRG" {}
-variable "CRG" {}
