@@ -5,7 +5,6 @@ resource "azurerm_storage_account" "stg_block" {
   location                 = each.value.location
   account_tier             = each.value.account_tier
   account_replication_type = each.value.account_replication_type
-
 }
 
 data "azurerm_storage_account" "stg_block" {
